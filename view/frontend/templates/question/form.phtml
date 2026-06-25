@@ -1,0 +1,54 @@
+<?php
+/** @var \Training\ProductQa\Block\ProductQuestion $block */
+$product = $block->getProduct();
+
+?>
+
+<div class="product-qa">
+    <h3>Ask a Question</h3>
+
+    <form method="post" action="<?= $block->getUrl('productqa/question/save') ?>">
+        <input
+            type="hidden"
+            name="product_id"
+            value="<?= $product->getId() ?>">
+
+        <textarea
+            name="question_text"
+            rows="5"
+            cols="60"></textarea>
+
+        <br><br>
+
+        <button type="submit">
+            Submit Question
+        </button>
+    </form>
+
+    <hr>
+
+    <h3>Questions</h3>
+
+    <?php foreach ($block->getQuestions() as $question): ?>
+
+        <div style="margin-bottom:15px">
+
+            <strong>Q:</strong>
+
+            <?= $block->escapeHtml(
+                $question->getQuestionText()
+            ) ?>
+
+            <br>
+
+            <small>
+                Status:
+                <?= $block->escapeHtml(
+                    $question->getStatus()
+                ) ?>
+            </small>
+
+        </div>
+
+    <?php endforeach; ?>
+</div>

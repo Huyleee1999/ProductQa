@@ -1,0 +1,13 @@
+<?php
+
+namespace Training\ProductQa\Model\ResourceModel;
+
+use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
+
+class Question extends AbstractDb
+{
+    protected function _construct()
+    {
+        $this->_init('training_productqa_question', 'question_id');
+    }
+}
