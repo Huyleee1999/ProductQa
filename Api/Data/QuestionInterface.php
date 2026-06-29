@@ -12,6 +12,7 @@ interface QuestionInterface
     public const STATUS = 'status';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
+    public const STATUS_PENDING = 0;
 
     public function getQuestionId();
 

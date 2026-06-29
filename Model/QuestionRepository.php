@@ -4,6 +4,7 @@ namespace Training\ProductQa\Model;
 
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Event\ManagerInterface;
 use Training\ProductQa\Api\QuestionRepositoryInterface;
 use Training\ProductQa\Model\ResourceModel\Question\CollectionFactory;
 use Training\ProductQa\Api\Data\QuestionInterface;
@@ -19,25 +20,34 @@ class QuestionRepository implements QuestionRepositoryInterface
     private CollectionFactory $collectionFactory;
     private CollectionProcessorInterface $collectionProcessor;
     private QuestionSearchResultsInterfaceFactory $searchResultsFactory;
+    private ManagerInterface $eventManager;
 
     public function __construct(
         QuestionFactory $questionFactory,
         QuestionResource $questionResource,
         CollectionFactory $collectionFactory,
         CollectionProcessorInterface $collectionProcessor,
-        QuestionSearchResultsInterfaceFactory $searchResultsFactory
+        QuestionSearchResultsInterfaceFactory $searchResultsFactory,
+        ManagerInterface $eventManager
     ) {
         $this->questionFactory = $questionFactory;
         $this->questionResource = $questionResource;
         $this->collectionFactory = $collectionFactory;
         $this->collectionProcessor = $collectionProcessor;
         $this->searchResultsFactory = $searchResultsFactory;
+        $this->eventManager = $eventManager;
     }
 
     public function save(QuestionInterface $question): QuestionInterface
     {
         /** @var \Training\ProductQa\Model\Question $question */
+        $isNew = !$question->getId();
         $this->questionResource->save($question);
+
+        if ($isNew) {
+            $this->eventManager->dispatch('training_productqa_question_created', ['question' => $question]);
+        }
+
         return $question;
     }
 

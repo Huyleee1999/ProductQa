@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+
+<config
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+
+    <template
+        id="training_productqa_digest_email"
+        label="Product QA Digest Email"
+        file="question_digest.html"
+        type="html"
+        module="Training_ProductQa"
+        area="frontend"/>
+</config>
