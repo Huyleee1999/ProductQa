@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                productqa_question_form.productqa_question_form_data_source
+            </item>
+            <item name="namespace" xsi:type="string">productqa_question_form</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+
+    <settings>
+        <namespace>productqa_question_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>productqa_question_form.productqa_question_form_data_source</dep>
+        </deps>
+
+        <buttons>
+            <button name="save" class="Training\ProductQa\Block\Adminhtml\Question\Edit\Button\Save"/>
+            <button name="back" class="Training\ProductQa\Block\Adminhtml\Question\Edit\Button\Back"/>
+        </buttons>
+    </settings>
+
+    <!-- DATA SOURCE -->
+    <dataSource name="productqa_question_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+
+        <settings>
+            <submitUrl path="productqa/question/save"/>
+        </settings>
+
+        <dataProvider class="Training\ProductQa\Ui\DataProvider\Question\FormDataProvider" name="productqa_question_form_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>question_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <!-- FIELDSET -->
+    <fieldset name="data">
+        <settings>
+            <collapsible>false</collapsible>
+            <label>General</label>
+        </settings>
+
+        <container name="messages" component="Magento_Catalog/js/components/messages">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string"/>
+                </item>
+            </argument>
+        </container>
+
+        <!-- QUESTION -->
+        <field name="question_text" formElement="input">
+            <settings>
+                <required>true</required>
+                <dataType>text</dataType>
+                <label translate="true">Question</label>
+                <dataScope>data.question_text</dataScope>
+                <componentType>field</componentType>
+            </settings>
+        </field>
+
+        <!-- ANSWER -->
+        <field name="answer_text" formElement="textarea">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Answer</label>
+                <dataScope>data.answer_text</dataScope>
+                <componentType>field</componentType>
+            </settings>
+        </field>
+
+        <!-- STATUS -->
+        <field name="status" formElement="select">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Status</label>
+                <dataScope>data.status</dataScope>
+                <componentType>field</componentType>
+            </settings>
+
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Training\ProductQa\Model\Config\Source\Status"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+
+    </fieldset>
+
+</form>

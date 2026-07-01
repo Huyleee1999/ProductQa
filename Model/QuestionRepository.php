@@ -5,6 +5,9 @@ namespace Training\ProductQa\Model;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Exception\CouldNotDeleteException;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Training\ProductQa\Api\QuestionRepositoryInterface;
 use Training\ProductQa\Model\ResourceModel\Question\CollectionFactory;
 use Training\ProductQa\Api\Data\QuestionInterface;
@@ -42,12 +45,16 @@ class QuestionRepository implements QuestionRepositoryInterface
     {
         /** @var \Training\ProductQa\Model\Question $question */
         $isNew = !$question->getId();
-        $this->questionResource->save($question);
 
-        if ($isNew) {
-            $this->eventManager->dispatch('training_productqa_question_created', ['question' => $question]);
+        try {
+            $this->questionResource->save($question);
+
+            if ($isNew) {
+                $this->eventManager->dispatch('training_productqa_question_created', ['question' => $question]);
+            }
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException(__($e->getMessage()));
         }
-
         return $question;
     }
 
@@ -56,14 +63,36 @@ class QuestionRepository implements QuestionRepositoryInterface
         $question = $this->questionFactory->create();
         $this->questionResource->load($question, $id);
 
+        if (!$question->getId()) {
+            throw new NoSuchEntityException(
+                __('Question with id "%1" does not exist.', $id)
+            );
+        }
+
         return $question;
     }
 
     public function delete(QuestionInterface $question): bool
     {
-        /** @var \Training\ProductQa\Model\Question $question */
-        $this->questionResource->delete($question);
+        try {
+            /** @var \Training\ProductQa\Model\Question $question */
+            $this->questionResource->delete($question);
+        } catch (\Exception $e) {
+            throw new CouldNotDeleteException(__($e->getMessage()));
+        }
+        return true;
+    }
 
+    public function deleteById(int $id): bool
+    {
+        $question = $this->questionFactory->create();
+        $this->questionResource->load($question, $id);
+
+        if (!$question->getId()) {
+            return false;
+        }
+
+        $this->questionResource->delete($question);
         return true;
     }
 

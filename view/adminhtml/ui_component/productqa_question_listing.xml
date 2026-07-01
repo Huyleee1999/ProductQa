@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                productqa_question_listing.productqa_question_listing_data_source
+            </item>
+        </item>
+    </argument>
+
+    <settings>
+        <spinner>question_columns</spinner>
+
+        <deps>
+            <dep>productqa_question_listing.productqa_question_listing_data_source</dep>
+        </deps>
+    </settings>
+
+    <dataSource name="productqa_question_listing_data_source" component="Magento_Ui/js/grid/provider">
+
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">question_id</param>
+            </storageConfig>
+
+            <updateUrl path="mui/index/render"/>
+        </settings>
+
+        <dataProvider class="Training\ProductQa\Ui\DataProvider\Question\DataProvider" name="productqa_question_listing_data_source">
+
+            <settings>
+                <primaryFieldName>question_id</primaryFieldName>
+                <requestFieldName>question_id</requestFieldName>
+            </settings>
+
+        </dataProvider>
+
+    </dataSource>
+
+    <columns name="question_columns">
+
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>question_id</indexField>
+            </settings>
+        </selectionsColumn>
+
+        <column name="question_id">
+            <settings>
+                <label>ID</label>
+                <filter>text</filter>
+            </settings>
+        </column>
+
+        <column name="question_text">
+            <settings>
+                <label>Question</label>
+                <filter>text</filter>
+            </settings>
+        </column>
+
+        <column name="answer_text">
+            <settings>
+                <label translate="true">Answer</label>
+                <filter>text</filter>
+            </settings>
+        </column>
+
+        <column name="status">
+            <settings>
+                <label translate="true">Status</label>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <options class="Training\ProductQa\Model\Config\Source\Status"/>
+            </settings>
+        </column>
+
+        <actionsColumn name="actions" class="Training\ProductQa\Ui\Component\Listing\Column\QuestionActions">
+            <settings>
+                <indexField>question_id</indexField>
+            </settings>
+        </actionsColumn>
+    </columns>
+
+</listing>

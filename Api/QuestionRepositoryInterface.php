@@ -14,5 +14,7 @@ interface QuestionRepositoryInterface
 
     public function delete(QuestionInterface $question): bool;
 
+    public function deleteById(int $id): bool;
+
     public function getList(SearchCriteriaInterface $searchCriteria): QuestionSearchResultsInterface;
 }
