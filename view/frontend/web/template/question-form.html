@@ -1,0 +1,25 @@
+<div class="qa-form">
+  <textarea
+    rows="5"
+    placeholder="Ask your question..."
+    data-bind="value: questionText"
+  ></textarea>
+
+  <br /><br />
+
+  <button type="button" data-bind="click: submit, disable: isLoading">
+    Submit Question
+  </button>
+
+  <div class="messages qa-message">
+    <div  data-bind="css: {
+                'message': true,
+                'message-success': messageType() === 'success',
+                'success': messageType() === 'success',
+                'message-error': messageType() === 'error',
+                'error': messageType() === 'error'
+            }">
+        <div class="message-text" data-bind="text: message"></div>
+    </div>
+  </div>
+</div>

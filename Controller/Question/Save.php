@@ -42,7 +42,7 @@ class Save implements HttpPostActionInterface
         $question->setStatus('pending');
 
         // Observer create question
-        $this->eventManager->dispatch('create_question', ['question' => $question]);
+        $this->eventManager->dispatch('training_productqa_question_created', ['question' => $question]);
         
         $this->questionRepository->save($question);
 

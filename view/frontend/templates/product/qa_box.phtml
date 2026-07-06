@@ -1,0 +1,83 @@
+<?php
+
+/** @var \Training\ProductQa\Block\ProductQuestion $block */
+$product = $block->getProduct();
+
+$viewModel = $block->getViewModel();
+$questions = $viewModel->getAnsweredQuestions($product);
+?>
+
+<style>
+    .product-qa {
+        clear: both;
+        display: block;
+        width: 100%;
+    }
+
+    .columns .column.main {
+        padding-bottom: 0;
+    }
+
+    .qa-item {
+        margin-top: 20px
+    }
+</style>
+
+<div class="product-qa">
+    <h2><?= $block->escapeHtml(__('Questions & Answers')) ?></h2>
+    <hr>
+    <div id="product-qa-form" data-bind="scope: 'productQaForm'">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    </div>
+
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "productQaForm": {
+                            "component": "Training_ProductQa/js/question-form",
+                            "template": "Training_ProductQa/question-form",
+                            "productId": <?= (int)$product->getId() ?>
+                        }
+                    }
+                }
+            }
+        }
+
+    </script>
+
+    <?php if (!$questions): ?>
+        <p><?= $block->escapeHtml(__('No answered questions yet.')) ?></p>
+    <?php else: ?>
+
+        <div class="qa-list">
+
+            <?php foreach ($questions as $question): ?>
+
+                <div class="qa-item">
+
+                    <div class="qa-question">
+                        <span class="qa-badge">Q</span>
+
+                        <div class="qa-text">
+                            <?= $block->escapeHtml($question->getQuestionText()) ?>
+                        </div>
+                    </div>
+
+                    <div class="qa-answer">
+                        <span class="qa-badge answer">A</span>
+
+                        <div class="qa-text">
+                            <?= nl2br($block->escapeHtml($question->getAnswerText())) ?>
+                        </div>
+                    </div>
+
+                </div>
+
+            <?php endforeach; ?>
+
+        </div>
+
+    <?php endif; ?>
+</div>

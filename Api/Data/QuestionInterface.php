@@ -13,6 +13,7 @@ interface QuestionInterface
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
     public const STATUS_PENDING = 'pending';
+    public const STATUS_ANSWERED = 'answered';
 
     public function getQuestionId();
 

@@ -40,6 +40,17 @@ class QuestionService
         $this->storeManager = $storeManager;
     }
 
+    public function getQuestions(): array
+    {
+        $this->logger->info('QuestionService execute');
+
+        return [
+            'What is Magento 2?',
+            'What is VirtualType?',
+            'What is Preference?'
+        ];
+    }
+
     private function getPendingQuestions(): array
     {
         $searchCriteria = $this->searchCriteriaBuilder
