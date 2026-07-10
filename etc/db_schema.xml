@@ -60,4 +60,12 @@
         </constraint>
 
     </table>
+
+    <table name="quote" resource="default" engine="innodb">
+        <column
+            xsi:type="text"
+            name="expert_question"
+            nullable="true"
+            comment="Expert Question"/>
+    </table>
 </schema>

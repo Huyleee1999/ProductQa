@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Checkout\Api\GuestShippingInformationManagementInterface" type="Training\ProductQa\Model\Checkout\GuestShippingInformationManagement"/>
+
+    <type name="Training\ProductQa\Model\Checkout\GuestShippingInformationManagement">
+        <plugin name="training_productqa_guest_shipping_information" type="Training\ProductQa\Plugin\Checkout\GuestShippingInformationManagementPlugin"/>
+    </type>
+</config>

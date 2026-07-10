@@ -6,6 +6,17 @@
         <plugin name="product_name_plugin" type="Training\ProductQa\Plugin\ProductNamePlugin" />
     </type>
 
+    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
+        <plugin name="training_productqa_layoutprocessor" type="Training\ProductQa\Plugin\Checkout\LayoutProcessorPlugin"/>
+    </type>
+
+
+    <preference for="Magento\Checkout\Api\GuestShippingInformationManagementInterface" type="Training\ProductQa\Model\Checkout\GuestShippingInformationManagement"/>
+
+    <type name="Training\ProductQa\Model\Checkout\GuestShippingInformationManagement">
+        <plugin name="training_productqa_guest_shipping_information" type="Training\ProductQa\Plugin\Checkout\GuestShippingInformationManagementPlugin"/>
+    </type>
+
     <!-- Virtual Type -->
     <virtualType name="TrainingProductLogger" type="Magento\Framework\Logger\Monolog">
         <arguments>
