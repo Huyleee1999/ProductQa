@@ -56,4 +56,34 @@ class Question extends AbstractModel implements QuestionInterface
             $status
         );
     }
+
+    public function getProductId()
+    {
+        return $this->getData(self::PRODUCT_ID);
+    }
+
+    public function setProductId(int $id)
+    {
+        return $this->setData(self::PRODUCT_ID, $id);
+    }
+
+    public function getCustomerId()
+    {
+        return $this->getData(self::CUSTOMER_ID);
+    }
+
+    public function setCustomerId(?int $id)
+    {
+        return $this->setData(self::CUSTOMER_ID, $id);
+    }
+
+    public function getAnswerText()
+    {
+        return $this->getData(self::ANSWER_TEXT);
+    }
+
+    public function setAnswerText(?string $text)
+    {
+        return $this->setData(self::ANSWER_TEXT, $text);
+    }
 }

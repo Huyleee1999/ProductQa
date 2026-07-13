@@ -68,4 +68,5 @@
 
     <preference for="Training\ProductQa\Api\QuestionRepositoryInterface" type="Training\ProductQa\Model\QuestionRepository" />
     <preference for="Training\ProductQa\Api\Data\QuestionSearchResultsInterface" type="Training\ProductQa\Model\QuestionSearchResults" />
+    <preference for="Training\ProductQa\Api\Data\QuestionInterface" type="Training\ProductQa\Model\Question"/>
 </config>
