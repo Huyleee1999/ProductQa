@@ -1,0 +1,21 @@
+<?php
+/** @var \Training\ProductQa\Block\Adminhtml\Order\View\ExpertQuestion $block */
+$question = $block->getExpertQuestion();
+
+if (!$question) {
+    return;
+}
+?>
+
+<div class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span style="font-size: 2rem; font-weight: 400;line-height: 1.2;">
+            <?= __('Expert Question') ?>
+        </span>
+    </div>
+
+    <div class="admin__page-section-content">
+        <?= nl2br($block->escapeHtml($question)) ?>
+    </div>
+</div>
+w

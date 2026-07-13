@@ -4,37 +4,40 @@ namespace Training\ProductQa\Model\Checkout;
 
 use Magento\Checkout\Api\Data\ShippingInformationInterface;
 use Magento\Checkout\Api\GuestShippingInformationManagementInterface;
-use Magento\Checkout\Model\GuestShippingInformationManagement as MagentoGuestShippingInformationManagement;
+use Magento\Checkout\Api\ShippingInformationManagementInterface;
+use Magento\Quote\Api\CartRepositoryInterface;
+use Magento\Quote\Model\QuoteIdMaskFactory;
 
 class GuestShippingInformationManagement implements GuestShippingInformationManagementInterface
 {
-    /**
-     * @var MagentoGuestShippingInformationManagement
-     */
-    private $guestShippingInformationManagement;
-
     public function __construct(
-        MagentoGuestShippingInformationManagement $guestShippingInformationManagement
-    ) {
-        $this->guestShippingInformationManagement = $guestShippingInformationManagement;
-    }
+        private ShippingInformationManagementInterface $shippingInformationManagement,
+        private QuoteIdMaskFactory $quoteIdMaskFactory,
+        private CartRepositoryInterface $cartRepository
+    ) {}
 
     public function saveAddressInformation($cartId, ShippingInformationInterface $addressInformation)
     {
-        dd(3333);
         $shippingAddress = $addressInformation->getShippingAddress();
+        $extensionAttributes = $shippingAddress->getExtensionAttributes();
 
-        if ($shippingAddress && method_exists($shippingAddress, 'getExtensionAttributes')) {
-            $extensionAttributes = $shippingAddress->getExtensionAttributes();
+        if ($extensionAttributes) {
+            $expertQuestion = $extensionAttributes->getExpertQuestion();
 
-            if ($extensionAttributes && method_exists($extensionAttributes, 'getExpertQuestion')) {
-                $expertQuestion = $extensionAttributes->getExpertQuestion();
-                if ($expertQuestion !== null) {
-                    $shippingAddress->setExtensionAttributes($extensionAttributes);
-                }
+            if ($expertQuestion !== null) {
+                $quoteId = $this->quoteIdMaskFactory
+                    ->create()
+                    ->load($cartId, 'masked_id')
+                    ->getQuoteId();
+
+                    /** @var \Magento\Quote\Model\Quote $quote */
+                $quote = $this->cartRepository->getActive((int)$quoteId);
+                $quote->setData('expert_question', $expertQuestion);
+
+                $this->cartRepository->save($quote);
             }
         }
 
-        return $this->guestShippingInformationManagement->saveAddressInformation($cartId, $addressInformation);
+        return $this->shippingInformationManagement->saveAddressInformation($quoteId, $addressInformation);
     }
 }

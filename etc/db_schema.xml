@@ -68,4 +68,12 @@
             nullable="true"
             comment="Expert Question"/>
     </table>
+
+    <table name="sales_order">
+        <column
+            xsi:type="text"
+            name="expert_question"
+            nullable="true"
+            comment="Expert Question"/>
+    </table>
 </schema>

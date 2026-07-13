@@ -10,7 +10,6 @@
         <plugin name="training_productqa_layoutprocessor" type="Training\ProductQa\Plugin\Checkout\LayoutProcessorPlugin"/>
     </type>
 
-
     <preference for="Magento\Checkout\Api\GuestShippingInformationManagementInterface" type="Training\ProductQa\Model\Checkout\GuestShippingInformationManagement"/>
 
     <type name="Training\ProductQa\Model\Checkout\GuestShippingInformationManagement">

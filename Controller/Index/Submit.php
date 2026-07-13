@@ -28,8 +28,6 @@ class Submit implements HttpPostActionInterface
         $result = $this->resultJsonFactory->create();
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 
-        $session = $objectManager->get(\Magento\Framework\Session\SessionManager::class);
-
         file_put_contents(
             BP . '/var/log/formkey.log',
             print_r([
