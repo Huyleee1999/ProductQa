@@ -6,8 +6,8 @@ use Magento\Catalog\Model\Product;
 
 class ProductNamePlugin
 {
-    public function afterGetName(Product $subject, string $result)
+    public function afterGetName(Product $subject, ?string $result): string
     {
-        return $result . ' [ProductQA]' . $subject->getId();
+        return ($result ?? '') . ' [ProductQA] ' . $subject->getId();
     }
 }

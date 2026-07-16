@@ -18,6 +18,11 @@ class GuestShippingInformationManagement implements GuestShippingInformationMana
 
     public function saveAddressInformation($cartId, ShippingInformationInterface $addressInformation)
     {
+        $quoteId = (int) $this->quoteIdMaskFactory
+            ->create()
+            ->load($cartId, 'masked_id')
+            ->getQuoteId();
+
         $shippingAddress = $addressInformation->getShippingAddress();
         $extensionAttributes = $shippingAddress->getExtensionAttributes();
 
@@ -25,13 +30,9 @@ class GuestShippingInformationManagement implements GuestShippingInformationMana
             $expertQuestion = $extensionAttributes->getExpertQuestion();
 
             if ($expertQuestion !== null) {
-                $quoteId = $this->quoteIdMaskFactory
-                    ->create()
-                    ->load($cartId, 'masked_id')
-                    ->getQuoteId();
 
-                    /** @var \Magento\Quote\Model\Quote $quote */
-                $quote = $this->cartRepository->getActive((int)$quoteId);
+                /** @var \Magento\Quote\Model\Quote $quote */
+                $quote = $this->cartRepository->getActive($quoteId);
                 $quote->setData('expert_question', $expertQuestion);
 
                 $this->cartRepository->save($quote);
